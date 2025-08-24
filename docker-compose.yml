@@ -10,7 +10,6 @@ services:
       POSTGRES_PASSWORD: swaasth_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     healthcheck:
@@ -83,46 +82,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    networks:
-      - swaasth-network
-
-  # Celery Worker (for background tasks)
-  celery:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: celery -A app.celery worker --loglevel=info
-    environment:
-      - DATABASE_URL=postgresql://swaasth_user:swaasth_password@database:5432/swaasth_db
-      - REDIS_URL=redis://redis:6379/0
-      - JWT_SECRET_KEY=your-super-secret-jwt-key-change-this-in-production
-    depends_on:
-      database:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ./backend:/app
-    networks:
-      - swaasth-network
-
-  # Celery Beat (for scheduled tasks)
-  celery-beat:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: celery -A app.celery beat --loglevel=info
-    environment:
-      - DATABASE_URL=postgresql://swaasth_user:swaasth_password@database:5432/swaasth_db
-      - REDIS_URL=redis://redis:6379/0
-      - JWT_SECRET_KEY=your-super-secret-jwt-key-change-this-in-production
-    depends_on:
-      database:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ./backend:/app
     networks:
       - swaasth-network
 

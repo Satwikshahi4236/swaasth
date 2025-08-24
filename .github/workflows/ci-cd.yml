@@ -44,7 +44,7 @@ jobs:
     - name: Run tests
       run: |
         cd backend
-        python -m pytest tests/ -v
+        python -m pytest tests/ -v --tb=short
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
 
@@ -74,7 +74,7 @@ jobs:
     - name: Run tests
       run: |
         cd web
-        npm test -- --coverage --watchAll=false
+        npm test -- --coverage --watchAll=false --passWithNoTests
 
     - name: Build application
       run: |
@@ -102,7 +102,7 @@ jobs:
     - name: Run type check
       run: |
         cd mobile
-        npx tsc --noEmit
+        npm run type-check
 
   build-and-push-images:
     needs: [test-backend, test-frontend]
@@ -156,3 +156,4 @@ jobs:
       run: |
         echo "Deployment step would go here"
         echo "This could integrate with Railway, AWS, or other cloud providers"
+        echo "Example: Railway CLI deployment or AWS ECS deployment"

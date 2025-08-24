@@ -6,11 +6,13 @@ import uvicorn
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+from sqlalchemy.orm import Session
 
 from .config import settings
-from .database import create_tables
+from .database import create_tables, get_db
 from .routes import auth, users, medicines, family, health
 from .utils.auth import verify_token
+from .models.user import User
 
 # Initialize Sentry for error tracking
 if settings.sentry_dsn:
@@ -46,7 +48,10 @@ app.add_middleware(
 security = HTTPBearer()
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db)
+) -> User:
     """
     Dependency to get current authenticated user.
     """
@@ -60,7 +65,21 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    return payload
+    user = db.query(User).filter(User.email == payload.get("sub")).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Inactive user"
+        )
+    
+    return user
 
 
 @app.on_event("startup")

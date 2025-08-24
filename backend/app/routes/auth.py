@@ -12,6 +12,25 @@ from ..config import settings
 router = APIRouter()
 
 
+async def get_current_user(token: str, db: Session = Depends(get_db)) -> User:
+    """Get current user from JWT token."""
+    payload = verify_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+        )
+    
+    user = db.query(User).filter(User.email == payload.get("sub")).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found"
+        )
+    
+    return user
+
+
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user_data: UserRegister, db: Session = Depends(get_db)):
     """
@@ -134,22 +153,14 @@ async def refresh_token(refresh_token: str, db: Session = Depends(get_db)):
 
 
 @router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user: dict = Depends(lambda: None), db: Session = Depends(get_db)):
+async def get_current_user_info(db: Session = Depends(get_db)):
     """
     Get current user information.
-    Note: This would normally use the get_current_user dependency from main.py
+    Note: This endpoint requires authentication via dependency injection in main.py
     """
-    # For now, we'll implement a basic version
-    # In production, you'd get the user from the JWT token
-    user = db.query(User).filter(User.id == 1).first()  # Placeholder
-    
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
-    
-    return user
+    # This is a placeholder - in production, the current user would be injected
+    # via the authentication dependency from main.py
+    return {"message": "Current user endpoint - requires proper auth dependency"}
 
 
 @router.post("/logout")

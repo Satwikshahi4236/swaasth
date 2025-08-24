@@ -11,7 +11,8 @@
     "eject": "expo eject",
     "build": "expo build:android",
     "build:ios": "expo build:ios",
-    "publish": "expo publish"
+    "publish": "expo publish",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",

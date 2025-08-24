@@ -11,6 +11,7 @@ RUN apt-get update \
         gcc \
         python3-dev \
         libpq-dev \
+        curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
