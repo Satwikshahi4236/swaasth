@@ -1,0 +1,55 @@
+{
+  "short_name": "Swaasth",
+  "name": "Swaasth Elder Health",
+  "description": "Comprehensive health application for elder care with personalized medicine reminders and secure family communication",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2196F3",
+  "background_color": "#ffffff",
+  "scope": "/",
+  "categories": ["health", "medical", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Medicine Reminder",
+      "short_name": "Medicines",
+      "description": "Quick access to medicine reminders",
+      "url": "/medicines",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Family Messages",
+      "short_name": "Family",
+      "description": "Check family messages",
+      "url": "/family",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Health Records",
+      "short_name": "Health",
+      "description": "View health records",
+      "url": "/health",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ]
+}
