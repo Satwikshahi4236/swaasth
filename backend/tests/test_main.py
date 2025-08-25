@@ -36,6 +36,9 @@ def test_auth_endpoints_exist():
 
 def test_protected_endpoints_require_auth():
     """Test that protected endpoints require authentication."""
+
+    response = client.get("/protected-endpoint")
+    assert response.status_code in [401, 403] 
     # Test users endpoint requires auth
     response = client.get("/api/v1/users/profile")
     assert response.status_code == 401
