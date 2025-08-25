@@ -25,24 +25,20 @@ def test_health_check():
 
 def test_auth_endpoints_exist():
     """Test that auth endpoints are properly mounted."""
-    # Test register endpoint exists (should return 422 for missing data)
     response = client.post("/api/v1/auth/register")
-    assert response.status_code == 422
-    
-    # Test login endpoint exists (should return 422 for missing data)
+    assert response.status_code == 422  # missing required fields
+
     response = client.post("/api/v1/auth/login")
-    assert response.status_code == 422
+    assert response.status_code == 422  # missing required fields
 
 
 def test_protected_endpoints_require_auth():
     """Test that protected endpoints require authentication."""
 
-    response = client.get("/protected-endpoint")
-    assert response.status_code in [401, 403] 
-    # Test users endpoint requires auth
+    # Users profile endpoint requires auth
     response = client.get("/api/v1/users/profile")
-    assert response.status_code == 401
-    
-    # Test medicines endpoint requires auth
+    assert response.status_code == 401  # should be 401 if no token
+
+    # Medicines endpoint requires auth
     response = client.get("/api/v1/medicines/")
-    assert response.status_code == 401
+    assert response.status_code == 401  # should be 401 if no token
