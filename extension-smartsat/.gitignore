@@ -1,0 +1,5 @@
+icons/
+node_modules/
+dist/
+*.log
+
