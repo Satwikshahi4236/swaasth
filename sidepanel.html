@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMARTSAT Assistant</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <div id="app">
+    <aside id="history">
+      <header>
+        <h1>SMARTSAT</h1>
+        <button id="newChatBtn" title="New chat">＋</button>
+      </header>
+      <nav id="sessions"></nav>
+      <footer>
+        <a id="openOptions" href="#">Settings</a>
+      </footer>
+    </aside>
+
+    <main id="chat">
+      <div id="messages"></div>
+      <div id="composer">
+        <button id="micBtn" title="Speech to text">🎤</button>
+        <textarea id="input" rows="1" placeholder="Ask SMARTSAT..." spellcheck="true"></textarea>
+        <button id="sendBtn" title="Send">➤</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
+

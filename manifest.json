@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "SMARTSAT Side Panel Assistant",
+  "description": "A side panel Chrome extension for chatting with the SMARTSAT assistant, with speech-to-text and chat history.",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "SMARTSAT Assistant"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "options_page": "options.html"
+}
+
